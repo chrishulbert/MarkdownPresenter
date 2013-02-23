@@ -35,7 +35,11 @@
     top:0;
     bottom:0;
     opacity:0.01;
+    z-index:-1;
    }
+   code {
+       color: rgb(235, 174, 108);
+  }
  /* End styling */
 </style>
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
@@ -61,8 +65,7 @@
 </html>
 
 <script>
-var Present = {};
-Present.converter = new Showdown.converter();
+var Present = { currentSlide: 0 };
 Present.showSlide = function(slide) {
   Present.currentSlide = slide;
   $('.centered').html(Present.slides[Present.currentSlide]);
@@ -70,7 +73,7 @@ Present.showSlide = function(slide) {
 };
 Present.nextSlide = function() {
   if (Present.currentSlide < Present.slides.length-1) {
-    Present.showSlide(Present.currentSlide+1);  
+    Present.showSlide(Present.currentSlide+1);
   }
 };
 Present.prevSlide = function() {
@@ -79,25 +82,33 @@ Present.prevSlide = function() {
   }
 };
 
-$.ajax({
-  url: 'presentation.md',
-  success: function(data) {
-    if (data.length>0) {
-      var converted = Present.converter.makeHtml(data);
-      Present.slides = converted.split('<p>!</p>');
-      Present.showSlide(0);
-    }
-  }
-});
+Present.reload = function() {
+    $.ajax({
+        url: 'presentation.md',
+        success: function(data) {
+            if (data.length>0) {
+                converter = new Showdown.converter();
+                var converted = converter.makeHtml(data);
+                Present.slides = converted.split('<p>!</p>');
+                Present.showSlide(Present.currentSlide);
+            }
+        }
+    });
+};
+Present.reload();
 
 $(document).keydown(function(e){
-    if (e.keyCode == 37) { 
+    if (e.keyCode == 37) {
        Present.prevSlide();
        return false;
     }
-    if (e.keyCode == 39) { 
+    if (e.keyCode == 39) {
       Present.nextSlide();
       return false;
+    }
+    if (e.keyCode == 32) { // space
+        Present.reload();
+        return false;
     }
 });
 
