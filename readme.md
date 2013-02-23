@@ -40,3 +40,26 @@ The `Presenter.html` fetches the `presentation.md` from the server via
 Ajax, uses [Showdown.js](https://github.com/coreyti/showdown) to
 transform it into HTML, splits it on `<p>!</p>` into individual
 slides, and displays the current slide.
+
+Note: Showdown
+[supports custom extensions](https://github.com/coreyti/showdown#creating-markdown-extensions)
+that can either
+[replace](https://github.com/coreyti/showdown#regexreplace) parts of
+the content based on a regular expression or
+[transform the whole text](https://github.com/coreyti/showdown#filter).
+There are some
+[extensions already available](https://github.com/coreyti/showdown/tree/master/src/extensions),
+for example
+[prettify](https://github.com/coreyti/showdown/blob/master/src/extensions/prettify.js)
+that adds support for syntax highlighting or
+[support for tables](https://github.com/coreyti/showdown/blob/master/src/extensions/table.js).
+
+The current version of the bundled Showdown.js is 0.3.1 from Nov 2012.
+
+Related
+-------
+- [Reveal.js](https://github.com/hakimel/reveal.js/): full-featured
+  HTML+JS presentation framework with support for Markdown in
+  individual slides
+- [PageDown](http://code.google.com/p/pagedown/wiki/PageDown) - Stack
+  Overflow's clone of Showdown
