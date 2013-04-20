@@ -22,11 +22,9 @@ browser to http://localhost/~myusername/MyPresentation/Presenter.html.
 On Linux or Mac you have also likely Python installed and can start
 its built-in web server in this directory by running `python -m SimpleHTTPServer`.
 
-If you use [IIS](http://www.iis.net/) or [IIS express](http://www.iis.net/learn/extensions/introduction-to-iis-express/iis-express-overview) copy the files the webfolder (for instance `C:\Inetpub\wwwroot\<SiteFolder>` on IIS or `C:\Users\<User>\Documents\My Web Sites\<WebSite>` on IIS express). 
+If you use [IIS](http://www.iis.net/) or [IIS express](http://www.iis.net/learn/extensions/introduction-to-iis-express/iis-express-overview) copy all the MarkdownPresenter files to the webfolder (normally `C:\Inetpub\wwwroot\<SiteFolder>` on IIS and `C:\Users\<User>\Documents\My Web Sites\<WebSite>` on IIS express). 
 
-Also make sure that a MIME mapping for the .md extension is added. 
-
-Either add the following mimeMap element to the `applicationhost.config` or `web.config` file:
+Also make sure that a MIME mapping for the .md extension is added. Either add the following mimeMap element to the `applicationhost.config` or the `web.config` file:
 
     <system.webServer>
       <!-- there might be other configuration here. -->
