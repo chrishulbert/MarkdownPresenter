@@ -1,7 +1,7 @@
 Markdown Presenter
 ==================
 
-This is what I use for giving simple, quick-to-produce presentations. Rather than fighting with keynote or powerpoint for hours, i can whip up a presentation in minutes using markdown.
+This is what I use for giving simple, quick-to-produce presentations. Rather than fighting with keynote or powerpoint for hours, I can whip up a presentation in minutes using markdown.
 
 Demo and usage
 --------------
@@ -16,11 +16,25 @@ Installing
 ----------
 You need to install this on a web server, otherwise it won't be able
 to open the presentation.md file via AJAX. So, if you're on a Mac,
-copy it to your ~/Sites/MyPresentation folder. Then open your web
+copy it to your `~/Sites/MyPresentation` folder. Then open your web
 browser to http://localhost/~myusername/MyPresentation/Presenter.html.
 
 On Linux or Mac you have also likely Python installed and can start
 its built-in web server in this directory by running `python -m SimpleHTTPServer`.
+
+If you use [IIS](http://www.iis.net/) or [IIS express](http://www.iis.net/learn/extensions/introduction-to-iis-express/iis-express-overview) copy the files the webfolder (for instance `C:\Inetpub\wwwroot\<SiteFolder>` on IIS or `C:\Users\<User>\Documents\My Web Sites\<WebSite>` on IIS express). 
+
+Also make sure that a MIME mapping for the .md extension is added. 
+
+Either add the following mimeMap element to the `applicationhost.config` or `web.config` file:
+
+    <system.webServer>
+      <!-- there might be other configuration here. -->
+      <staticContent>
+        <!-- there might be other configuration here. -->
+        <mimeMap fileExtension=".md" mimeType="text/plain" />
+      </staticContent>
+    </system.webServer>
 
 Markdown file
 -------------
