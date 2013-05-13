@@ -21,7 +21,23 @@
   .slideCount {
     position: fixed;
     bottom: 1em;
-    right: 1em;
+    right: 2px;
+    height:1.3em;
+    width:8em;
+    overflow:hidden;
+  }
+  .slideCount select {
+    color:white;
+    background-color:#112;
+    border-color:#112;
+    border:none;
+    font-size:1em;
+    height:1.3em;
+    width:10em;
+
+    -webkit-appearance: none;
+    border-radius:0;
+    -webkit-border-radius: 0;
   }
   .padding {
     height: 60px;
@@ -88,7 +104,7 @@ if (!window.jQuery) {
 </script>
 <script type="text/javascript" src="showdown.js"></script>
 </head>
-<body>
+<body tabindex="1">
 <div class="for-screen">
 
 <div class="bg">&nbsp;</div>
@@ -103,7 +119,10 @@ if (!window.jQuery) {
 </tr>
 </table>
 
-<div class='slideCount'>Slide X of Y</div>
+<div class="slideCount">
+  <select tabindex="-1">
+  </select>
+</div>
 
   <div class="padding">
     <!-- This padding need to hiding address bar automatically at iPhone/iPad/Android browser. -->
@@ -126,11 +145,22 @@ if (!window.jQuery) {
 </html>
 
 <script>
-var Present = { currentSlide: 0 };
+var Present = { };
+
+Present.hashToSlideIndex = function () {
+    var matches = window.location.hash.match(/#(\d+)/);
+    if (matches == null) return 0;
+    return parseInt(matches[1]) - 1;
+}
+
+Present.currentSlide = Present.hashToSlideIndex();
+
 Present.showSlide = function(slide) {
+  slide = Math.max(0, Math.min(slide, Present.slides.length - 1));
   Present.currentSlide = slide;
   $('.for-screen .centered').html(Present.slides[Present.currentSlide]);
-  $('.slideCount').html('Slide ' + (Present.currentSlide+1) + ' of ' + Present.slides.length);
+  $('.slideCount select').val(this.currentSlide);
+  window.location.hash = '#' + (Present.currentSlide + 1);
 };
 Present.nextSlide = function() {
   if (Present.currentSlide < Present.slides.length-1) {
@@ -155,6 +185,16 @@ Present.buildPrintPage = function () {
     });
 }
 
+Present.buildSlideCounter = function () {
+    var $counter = $('.slideCount select');
+    var optionHtmls = [];
+    var numOfSlides = this.slides.length;
+    $.each(this.slides, function (i) {
+        optionHtmls.push('<option value="' + i + '">Slide ' + (i + 1) + ' of ' + numOfSlides + '</option>');
+    });
+    $counter.html(optionHtmls.join(''));
+}
+
 Present.reload = function() {
     $.ajax({
         url: 'presentation.md',
@@ -163,6 +203,7 @@ Present.reload = function() {
                 converter = new Showdown.converter();
                 var converted = converter.makeHtml(data);
                 Present.slides = converted.split('<p>!</p>');
+                Present.buildSlideCounter();
                 Present.showSlide(Present.currentSlide);
 
                 // If beforeprint event not supported, build pages to printing now.
@@ -173,20 +214,37 @@ Present.reload = function() {
 };
 Present.reload();
 
-$(document).keydown(function(e){
-    if (e.keyCode == 37) {
-       Present.prevSlide();
-       return false;
-    }
-    if (e.keyCode == 39) {
-      Present.nextSlide();
-      return false;
-    }
-    if (e.keyCode == 32) { // space
-        Present.reload();
-        return false;
-    }
-});
+(function () {
+    var pageToJump = '';
+
+    $(document).keydown(function(e){
+        if (e.keyCode == 13) { // enter
+            if (pageToJump != '') {
+                Present.showSlide(parseInt(pageToJump) - 1);
+                pageToJump = '';
+            }
+        }
+        if (48 <= e.keyCode && e.keyCode <= 57) {
+            pageToJump += String.fromCharCode(e.keyCode);
+        }
+        else {
+            pageToJump = '';
+        }
+
+        if (e.keyCode == 37) {
+            Present.prevSlide();
+            return false;
+        }
+        if (e.keyCode == 39) {
+            Present.nextSlide();
+            return false;
+        }
+        if (e.keyCode == 32) { // space
+            Present.reload();
+            return false;
+        }
+    });
+})();
 
 // Build print page on demand.
 $(window).bind('beforeprint', Present.buildPrintPage);
@@ -250,5 +308,18 @@ $(function () {
     hideaddressbar();
 
     $(window).bind('orientationchange', hideaddressbar);
+});
+
+// Go to page by hash of URL changed.
+$(window).bind('hashchange', function () {
+    var slideIndex = Present.hashToSlideIndex();
+    if (Present.currentSlide != slideIndex)
+        Present.showSlide(slideIndex);
+});
+
+// Go to page by drop down list changed.
+$('.slideCount select').change(function () {
+    Present.showSlide(parseInt($(this).val()));
+    setTimeout(function () { document.body.focus(); }, 0);
 });
 </script>
