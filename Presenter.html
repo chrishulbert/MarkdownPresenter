@@ -1,5 +1,6 @@
 <html>
 <head>
+<meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1" />
 <title>Markdown Presenter</title>
 <style>
   html, body {
@@ -9,6 +10,8 @@
   	font-family: helvetica;
     color: white;
     overflow: hidden;
+    -ms-touch-action: none;
+    -moz-user-select:none;
   }
   div.centered {
   	margin:auto;
@@ -16,9 +19,12 @@
   	width:20em; /* So we get about 10 words per line */
   }
   .slideCount {
-    position: absolute;
+    position: fixed;
     bottom: 1em;
     right: 1em;
+  }
+  .padding {
+    height: 60px;
   }
 
   /* My styling here */
@@ -54,6 +60,24 @@
    @media print {
        .for-screen { display: none; }
    }
+   @media only screen and (max-width: 768px) {
+       .centered {
+           -ms-zoom: 0.8;
+           zoom: 0.8;
+       }
+   }
+   @media only screen and (max-width: 480px) {
+       .centered {
+           -ms-zoom: 0.5;
+           zoom: 0.5;
+       }
+   }
+   @media only screen and (max-width: 320px) {
+       .centered {
+           -ms-zoom: 0.35;
+           zoom: 0.35;
+       }
+   }
  /* End styling */
 </style>
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
@@ -80,6 +104,11 @@ if (!window.jQuery) {
 </table>
 
 <div class='slideCount'>Slide X of Y</div>
+
+  <div class="padding">
+    <!-- This padding need to hiding address bar automatically at iPhone/iPad/Android browser. -->
+  </div>
+
 </div>
 
 <div class="for-print">
@@ -162,4 +191,64 @@ $(document).keydown(function(e){
 // Build print page on demand.
 $(window).bind('beforeprint', Present.buildPrintPage);
 
+$(function () {
+    var startPos = null;
+    var isPointerTypeTouch = function (e) {
+        if ('pointerType' in e.originalEvent)
+            return (e.originalEvent.pointerType === e.originalEvent.MSPOINTER_TYPE_TOUCH);
+        else true;
+    };
+    var getPos = function (e) {
+        if ('touches' in e.originalEvent) {
+            var touches = e.originalEvent.touches;
+            if (touches.length < 1) return { x: 0, y: 0 };
+            return { x: touches[0].pageX, y: touches[0].pageY };
+        }
+        return { x: e.pageX, y: e.pageY };
+    };
+    var ontouchstart = function (e) {
+        if (isPointerTypeTouch(e) === false) return;
+        startPos = getPos(e);
+    }
+    var ontouchmove = function (e) {
+        if (startPos === null || isPointerTypeTouch(e) === false) return;
+        var pos = getPos(e);
+        var d = { x: startPos.x - pos.x, y: startPos.y - pos.y };
+        if (Math.abs(d.x) >=40) {
+            startPos = null;
+            $(this).trigger(d.x < 0 ? 'swiperight' : 'swipeleft');
+            return false;
+        }
+    }
+    var ontouchend = function (e) {
+        if (startPos === null || isPointerTypeTouch(e) === false) return;
+        startPos = null;
+    }
+
+    var hideaddressbar = function () {
+        setTimeout(function () { window.scrollTo(0, 1); }, 100);
+    };
+
+    $(document.body)
+        .bind({
+            'MSPointerDown': ontouchstart,
+            'MSPointerMove': ontouchmove,
+            'MSPointerUp': ontouchend,
+            'touchstart': ontouchstart,
+            'touchmove': ontouchmove,
+            'touchend': ontouchend,
+            'swiperight': function () {
+                Present.prevSlide();
+                hideaddressbar();
+            },
+            'swipeleft': function () {
+                Present.nextSlide();
+                hideaddressbar();
+            }
+        });
+
+    hideaddressbar();
+
+    $(window).bind('orientationchange', hideaddressbar);
+});
 </script>
