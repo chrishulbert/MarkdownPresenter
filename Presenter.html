@@ -135,6 +135,9 @@ Present.reload = function() {
                 var converted = converter.makeHtml(data);
                 Present.slides = converted.split('<p>!</p>');
                 Present.showSlide(Present.currentSlide);
+
+                // If beforeprint event not supported, build pages to printing now.
+                if (('onbeforeprint' in window) === false) Present.buildPrintPage();
             }
         }
     });
