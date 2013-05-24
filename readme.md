@@ -1,3 +1,8 @@
+Notice
+======
+
+Please go to https://github.com/jsakamoto/MarkdownPresenter for a more up-to-date fork of this app :)
+
 Markdown Presenter
 ==================
 
