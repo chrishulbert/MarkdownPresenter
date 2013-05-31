@@ -145,7 +145,22 @@ if (!window.jQuery) {
 </html>
 
 <script>
-var Present = { };
+var Present = {
+    // Slide transition effects.
+    effects: {
+        // n: no effect.
+        n: {
+            pre: function (view, callback) { callback(); },
+            post: function (view) { }
+        },
+        // f: fade in/out.
+        f: {
+            pre: function (view, callback) { view.fadeOut('fast', callback); },
+            post: function (view) { view.fadeIn('fast'); }
+        }
+    },
+};
+Present.currentEffect = Present.effects['n']; // Default slide transiton effect is nothing.
 
 Present.hashToSlideIndex = function () {
     var matches = window.location.hash.match(/#(\d+)/);
@@ -158,7 +173,13 @@ Present.currentSlide = Present.hashToSlideIndex();
 Present.showSlide = function(slide) {
   slide = Math.max(0, Math.min(slide, Present.slides.length - 1));
   Present.currentSlide = slide;
-  $('.for-screen .centered').html(Present.slides[Present.currentSlide]);
+
+  var $view = $('.for-screen .centered');
+  this.currentEffect.pre($view, $.proxy(function () {
+      $view.html(this.slides[this.currentSlide]);
+      this.currentEffect.post($view);
+  }, this));
+
   $('.slideCount select').val(this.currentSlide);
   window.location.hash = '#' + (Present.currentSlide + 1);
 };
@@ -217,6 +238,7 @@ Present.reload();
 
 (function () {
     var pageToJump = '';
+    var effectCmd = false;
 
     $(document).keydown(function(e){
         if (e.keyCode == 13) { // enter
@@ -230,6 +252,17 @@ Present.reload();
         }
         else {
             pageToJump = '';
+        }
+
+        // Detect key combination to change slide transition effect. 
+        // ex) 'e','f' -> change effect to fade in/out.
+        if (e.keyCode == 'E'.charCodeAt(0)) effectCmd = true;
+        else if (effectCmd)
+        {
+            var effectName = String.fromCharCode(e.keyCode).toLowerCase();
+            var effect = Present.effects[effectName];
+            if (typeof (effect) !== 'undefined') Present.currentEffect = effect;
+            effectCmd = false;
         }
 
         if (e.keyCode == 37) {
