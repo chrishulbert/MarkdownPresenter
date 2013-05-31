@@ -6,7 +6,7 @@ This is what I use for giving simple, quick-to-produce presentations. Rather tha
 Demo and usage
 --------------
 Check out a demo
-[here](http://chrishulbert.github.com/MarkdownPresenter/Presenter.html).
+[here](http://jsakamoto.github.com/MarkdownPresenter/Presenter.html).
 Use the arrow keys on your keyboard to switch between slides.
 
 You can reload the presentation at any time - staying on the same
