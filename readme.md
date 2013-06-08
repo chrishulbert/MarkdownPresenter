@@ -9,7 +9,8 @@ Check out a demo
 [here](http://jsakamoto.github.com/MarkdownPresenter/Presenter.html).
 
 #### Supported devices and browsers
-Markdown Presenter may work well on iPhone/iPad, Android, and PC Desktop browsers (Chrome, Firefox, IE - if you want touch support, you can chose IE10 on Windows8 -).
+Markdown Presenter may work well on iPhone/iPad, Android, and PC Desktop browsers (Chrome, Firefox, IE - if you want touch support, you can chose IE10 on Windows8 -).  
+![slide index at dropdown](http://jsakamoto.github.io/MarkdownPresenter/iphone.png)
 
 #### Switching between slides
 Use the **arrow keys** on your keyboard or **swipe horizontally** on touch screen to switch between slides.
