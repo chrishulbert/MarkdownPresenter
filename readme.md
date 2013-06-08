@@ -41,6 +41,22 @@ Also make sure that a MIME mapping for the .md extension is added. Either add th
       </staticContent>
     </system.webServer>
 
+Printing Support
+-----
+
+Markdown Presenter can print out the all slides to any printer from browser printing feature. 
+
+![printing](http://jsakamoto.github.io/MarkdownPresenter/printing.png)
+
+The keys to get fine result is follow:
+
+- Layout - Landscape
+- Margins - No margin
+- Options - Enable to printing background colors
+
+And you can print out as a PDF file, so you can also upload and publish your slides to "slideshare.com".
+
+
 Markdown file
 -------------
 The presentation.md file is where you put your presentation. All you need to do to separate slides is a paragraph with an exclamation mark, eg:
