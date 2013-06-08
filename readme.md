@@ -41,6 +41,18 @@ Also make sure that a MIME mapping for the .md extension is added. Either add th
       </staticContent>
     </system.webServer>
 
+Markdown file
+-------------
+The presentation.md file is where you put your presentation. All you need to do to separate slides is a paragraph with an exclamation mark, eg:
+
+    This is a slide
+    Blah blah blah
+
+    !
+
+    This is another slide
+    Yada yada yada
+
 Printing Support
 -----
 
@@ -55,19 +67,6 @@ The keys to get fine result is follow:
 - Options - Enable to printing background colors
 
 And you can print out as a PDF file, so you can also upload and publish your slides to "slideshare.com".
-
-
-Markdown file
--------------
-The presentation.md file is where you put your presentation. All you need to do to separate slides is a paragraph with an exclamation mark, eg:
-
-    This is a slide
-    Blah blah blah
-
-    !
-
-    This is another slide
-    Yada yada yada
 
 How it works
 ------------
