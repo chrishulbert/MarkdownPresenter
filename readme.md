@@ -26,8 +26,9 @@ To reset this transition effect, type 'e' then 'n'.
 You can jump to the any slide which you want to show directly by 3 ways as follow:
 
 1. by PowerPoint compatibe keyboard shortcut, such as '2','1','Enter' then jump to the slide at 21.
-2. by chosing slide index from drop down list at bottom-right of the browser window.
-3. by specification hash tag of URL.
+2. by chosing slide index from drop down list at bottom-right of the browser window.  ![slide index at dropdown](http://jsakamoto.github.io/MarkdownPresenter/slide-index-at-dropdown.png)
+3. by specification hash tag of URL.  ![slide index at hashtag](http://jsakamoto.github.io/MarkdownPresenter/slide-index-at-hashtag.png)
+
 
 Installing
 ----------
