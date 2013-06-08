@@ -8,16 +8,26 @@ Demo and usage
 Check out a demo
 [here](http://jsakamoto.github.com/MarkdownPresenter/Presenter.html).
 
+#### Supported devices and browsers
 Markdown Presenter may work well on iPhone/iPad, Android, and PC Desktop browsers (Chrome, Firefox, IE - if you want touch support, you can chose IE10 on Windows8 -).
 
-Use the arrow keys on your keyboard or swipe horizontally on touch screen to switch between slides.
+#### Switching between slides
+Use the **arrow keys** on your keyboard or **swipe horizontally** on touch screen to switch between slides.
 
+#### Reloading
 You can reload the presentation at any time - staying on the same
 slide number - by pressing the spacebar.
 
+#### Transition effect
 If you whould like to get fade in/out effect on switching between slides, type 'e' then 'f' key on your keyboard.  
 To reset this transition effect, type 'e' then 'n'.
 
+#### Direct page jump
+You can jump to the any slide which you want to show directly by 3 ways as follow:
+
+1. by PowerPoint compatibe keyboard shortcut, such as '2','1','Enter' then jump to the slide at 21.
+2. by chosing slide index from drop down list at bottom-right of the browser window.
+3. by specification hash tag of URL.
 
 Installing
 ----------
